@@ -28,9 +28,12 @@ digraph grocer {
 ## Setup
 
 1. Use `~/dev/grocer/` folder — create if missing
-2. Create `{project}-list.md` with items, specs, and status
-3. Dispatch **parallel Task agents per store** to avoid context bloat — each writes to `grocer/{store}-{item}.md`
-4. Main session consolidates into the final list
+2. **Read `~/dev/grocer/config/preferences.md`** for user's location, favorite stores, language, and measurement preferences
+3. **Read `~/dev/grocer/config/stores/*.md`** for any store-specific tips the user has taught
+4. Create `{project}-list.md` with items, specs, and status
+5. Search stores in the user's preferred order from config
+6. Dispatch **parallel Task agents per store** to avoid context bloat — each writes to `grocer/sessions/{store}-{item}.md`
+7. Main session consolidates into the final list
 
 ## Browsing Retailers with Playwright MCP
 
