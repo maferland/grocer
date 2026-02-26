@@ -20,15 +20,9 @@ Claude Code plugin that browses retailer websites via Playwright MCP to build sh
 /grocer:search foam tape 20mm, M2 dowel pins, drawer knob
 ```
 
-## Supported Retailers
+## Support
 
-| Store | Method | Notes |
-|-------|--------|-------|
-| Canac | Playwright | French only (`/fr/`) |
-| Home Depot | Playwright | Bilingual |
-| Canadian Tire | Playwright / Google | Finicky, Google fallback |
-| Dollarama | In-store only | No useful website |
-| Amazon.ca | Manual browse | Anti-bot protection |
+<a href="https://www.buymeacoffee.com/maferland"><img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?logo=buymeacoffee&logoColor=white" alt="Buy Me A Coffee"></a>
 
 ## License
 

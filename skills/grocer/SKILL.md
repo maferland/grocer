@@ -1,11 +1,11 @@
 ---
 name: grocer
-description: Use when the user needs to find products at local stores, build a hardware/shopping list, compare prices across retailers, or search for specific items at stores like Canac, Home Depot, Canadian Tire. Triggers on shopping lists, product searches, "where can I buy", store availability checks.
+description: Use when the user needs to find products at local stores, build a hardware/shopping list, compare prices across retailers, or search for specific items. Triggers on shopping lists, product searches, "where can I buy", store availability checks.
 ---
 
 # Grocer — Local Store Product Finder
 
-Browse real retailer websites via Playwright MCP to build shopping lists with actual prices, stock status, and clickable links. Prefer local stores over online — suggest Amazon/eBay only as last resort.
+Browse real retailer websites via Playwright MCP to build shopping lists with actual prices, stock status, and clickable links. Prefer local stores over online.
 
 ## Workflow
 
@@ -34,9 +34,7 @@ digraph grocer {
 
 ## Browsing Retailers with Playwright MCP
 
-**All Quebec retailers are JS-rendered — WebFetch returns empty HTML. MUST use Playwright MCP.**
-
-### General Playwright Pattern
+Most retailer sites are JS-rendered — WebFetch returns empty HTML. Use Playwright MCP.
 
 ```
 1. browser_navigate → store search URL
@@ -46,66 +44,23 @@ digraph grocer {
 5. browser_snapshot → read product details
 ```
 
-### Canac (canac.ca) — FRENCH ONLY
-
-- **Search URL:** `https://www.canac.ca/canac/fr/2/search/TERMS`
-- **Product URL:** `https://www.canac.ca/canac/fr/p/SLUG/CODE`
-- English URLs redirect to homepage — ALWAYS use `/fr/`
-- Search box: `browser_click` on search input, `browser_type` terms, submit
-- Stock: look for "En inventaire" vs "Inventaire épuisé" per store
-- Product codes visible in results — always record them
-- Search terms: use French hardware terms (vis, boulon, mousse, goupille, tige)
-
-### Home Depot (homedepot.ca)
-
-- **Search URL:** `https://www.homedepot.ca/search?q=TERMS`
-- Bilingual, works in English
-- Good for: power tools, lumber, plumbing, electrical
-- Stock shown per store location
-
-### Canadian Tire (canadiantire.ca)
-
-- Site can be finicky with Playwright — use Google fallback if needed
-- **Google:** `site:canadiantire.ca SEARCH TERMS`
-- Good for: automotive, seasonal, basic hardware
-
-### Google as Fallback
-
-When retailer search is poor:
-- `"PRODUCT" site:RETAILER.ca` — find specific products
-- `"PRODUCT" buy quebec city` — discover other local stores
-- `"PRODUCT" canac OR "home depot" OR "canadian tire"` — cross-store search
-
-### Dollarama / Dollar Stores
-
-- No useful website for product search — must visit in-store
-- Good for: craft foam, basic adhesives, simple hardware
-- Note availability as "check in-store"
+If Playwright fails or site blocks automation, fall back to Google: `"PRODUCT" site:RETAILER.ca`
 
 ## Key Patterns
 
 ### Every product listing MUST include
 - Product name (full, as shown on site)
 - **Clickable URL** (full `https://` link — codes alone are useless)
-- Price in CAD
+- Price in local currency
 - Stock status at user's local store
 - Product code (for reference at store)
 
 ### Keyword Strategy — Try 3-5 Variations Per Item
-1. French AND English terms (vis = screw, boulon = bolt, mousse = foam)
-2. Technical AND common names (goupille cylindrique = dowel pin)
-3. Imperial AND metric (M2 = 5/64", M4 = 5/32", 3mm ≈ #4 gauge)
+1. Local language AND English terms
+2. Technical AND common names
+3. Imperial AND metric measurements
 4. Brand names if known
 5. Google with `site:` as last resort
-
-### Metric vs Imperial (Quebec stores stock mostly imperial)
-| Metric | Imperial | Notes |
-|--------|----------|-------|
-| M2 | 5/64" | Very small, often specialty |
-| M3 | 1/8" | Common |
-| M4 | 5/32" | 8/32 screws (4.17mm) ≈ M4 — close enough for 3D prints |
-| M5 | 3/16" | Common |
-| 3mm shaft | #4 gauge | Wood screw sizing |
 
 ### When items aren't found locally
 1. Try varied keywords (3-5 per item)
@@ -117,7 +72,7 @@ When retailer search is poor:
 - One Task agent per store or per item category
 - Each agent writes results to `grocer/{store}-{item}.md`
 - Main session reads results and consolidates
-- **Agents share Playwright browser** — avoid running multiple browser agents simultaneously
+- Avoid running multiple Playwright agents on the same browser simultaneously
 
 ## List File Format
 
@@ -150,10 +105,8 @@ When retailer search is poor:
 ```
 
 ## Common Mistakes
-- Forgetting actual URLs (just listing product codes is useless to the user)
-- Using English URLs on Canac (they redirect to homepage — always `/fr/`)
+- Forgetting actual URLs (just listing product codes is useless)
 - Searching only one keyword variation (try 3-5 per item)
 - Ordering small cheap parts online when a hardware store alternative exists
-- Not converting metric to imperial for Quebec stores
-- Using WebFetch on JS-rendered sites (always Playwright for retailers)
-- Running multiple Playwright agents on same browser simultaneously
+- Using WebFetch on JS-rendered sites (use Playwright)
+- Not converting between metric and imperial when needed
