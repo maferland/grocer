@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "grocer-marketplace",
+  "description": "Smart local store product finder — searches retailer websites via Playwright to build shopping lists with real prices and links",
+  "owner": {
+    "name": "Marc-Antoine Ferland",
+    "email": "me@maferland.com"
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "grocer",
+      "source": "./",
+      "description": "Search local retailers, build hardware/shopping lists with real prices and stock",
+      "version": "1.0.0",
+      "author": {
+        "name": "Marc-Antoine Ferland",
+        "email": "me@maferland.com"
+      },
+      "category": "productivity",
+      "keywords": ["shopping", "hardware", "canac", "home-depot", "canadian-tire", "quebec", "retailer", "price-comparison"]
+    }
+  ]
+}

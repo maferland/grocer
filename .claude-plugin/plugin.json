@@ -1,0 +1,11 @@
+{
+  "name": "grocer",
+  "version": "1.0.0",
+  "description": "Smart local store product finder — browses retailer websites via Playwright MCP to build shopping lists with real prices, stock status, and direct links",
+  "author": {
+    "name": "Marc-Antoine Ferland",
+    "email": "me@maferland.com"
+  },
+  "license": "MIT",
+  "keywords": ["shopping", "hardware", "retailer", "canac", "home-depot", "canadian-tire", "price-comparison", "quebec", "playwright"]
+}
