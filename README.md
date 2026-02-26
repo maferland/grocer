@@ -1,7 +1,7 @@
 <div align="center">
 <h1>🛒 grocer</h1>
 
-<p>local store product finder for Claude Code</p>
+<p>Local store product finder for Claude Code</p>
 </div>
 
 ---
